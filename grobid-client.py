@@ -1,3 +1,4 @@
+import shutil
 import sys
 import os
 import io
@@ -49,7 +50,7 @@ class grobid_client(ApiClient):
 
         for (dirpath, dirnames, filenames) in os.walk(input):
             for filename in filenames:
-                if filename.endswith('.pdf') or filename.endswith('.PDF'): 
+                if filename.endswith('.pdf') or filename.endswith('.PDF'):
                     pdf_files.append(os.sep.join([dirpath, filename]))
 
                     if len(pdf_files) == batch_size_pdf:
@@ -80,7 +81,7 @@ class grobid_client(ApiClient):
             print(filename, "already exist, skipping... (use --force to reprocess pdf input files)")
             return
 
-        print(pdf_file)
+        # print(pdf_file)
         files = {
             'input': (
                 pdf_file,
@@ -118,6 +119,7 @@ class grobid_client(ApiClient):
             return self.process_pdf(pdf_file, output)
         elif status != 200:
             print('Processing failed with error ' + str(status))
+            shutil.move(pdf_file, pdf_file + '.unparsable')
         else:
             # writing TEI file
             try:
