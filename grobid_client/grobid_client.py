@@ -6,7 +6,7 @@ import json
 import argparse
 import time
 import concurrent.futures
-from client import ApiClient
+from .client import ApiClient
 import ntpath
 import requests
 
